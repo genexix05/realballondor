@@ -1,41 +1,81 @@
-# Position weight stubs for Base Performance Score (v0 — not applied yet).
-# Values are relative importance within a position group.
-positions:
-  FW:
+# Pesos por posición para el Base Performance Score.
+#
+# Solo se listan columnas que existen de verdad en player_match_stats de FotMob.
+# La versión anterior pedía psxg_minus_ga, save_pct, claims, clean_sheets,
+# progressive_passes y progressive_carries, que no existen; las cuatro primeras
+# se sustituyen por las métricas reales de FotMob (goals_prevented es
+# exactamente PSxG - GA) y las dos últimas por passes_final_third, el mejor
+# proxy disponible hasta que se enchufe la capa de FBref.
+#
+# Los valores son importancia relativa dentro del grupo, no puntos. Cada
+# estadística se divide antes por su percentil 95 dentro del grupo, así goles
+# (0-4) y pases (0-120) entran en la misma escala y el cero sigue siendo cero.
+
+position_groups:
+  FWD:
     goals: 1.00
-    xg: 0.85
+    npxg: 0.85
     assists: 0.70
     xa: 0.60
-    shots: 0.40
+    shots_on_target: 0.35
     key_passes: 0.35
-    progressive_carries: 0.30
     dribbles_completed: 0.30
-    tackles: 0.10
-    interceptions: 0.10
-  MF:
-    goals: 0.55
-    xg: 0.45
-    assists: 0.80
+    touches_opp_box: 0.25
+    duels_won: 0.10
+    recoveries: 0.10
+
+  MID:
+    assists: 0.90
     xa: 0.75
     key_passes: 0.70
-    progressive_passes: 0.65
-    progressive_carries: 0.50
+    goals: 0.70
+    passes_final_third: 0.55
+    npxg: 0.45
+    dribbles_completed: 0.45
     tackles: 0.45
     interceptions: 0.45
     recoveries: 0.40
-  DF:
+    duels_won: 0.30
+
+  DEF:
     tackles: 0.80
     interceptions: 0.80
     aerial_duels_won: 0.70
     clearances: 0.60
     blocks: 0.55
-    progressive_passes: 0.45
-    goals: 0.25
+    recoveries: 0.50
+    duels_won: 0.40
+    passes_final_third: 0.40
     assists: 0.30
+    goals: 0.25
+
   GK:
-    saves: 1.00
-    save_pct: 0.70
-    psxg_minus_ga: 0.90
-    clean_sheets: 0.40
-    claims: 0.30
-    progressive_passes: 0.25
+    # Calidad primero: PSxG−GA. Las paradas en crudo premian al que más tiran.
+    goals_prevented: 1.00
+    saves: 0.45
+    save_pct: 0.35
+    high_claim: 0.30
+    clean_sheet: 0.25
+    saves_inside_box: 0.25
+    punches: 0.15
+    acted_as_sweeper: 0.15
+
+# Restan en todos los grupos. Un rojo cuesta lo que vale un gol.
+penalties:
+  own_goals: -1.00
+  red_cards: -1.00
+  yellow_cards: -0.15
+  dispossessed: -0.10
+  dribbled_past: -0.10
+
+# El rating de FotMob entra como una variable más, no como juez único.
+# El brief pedía explícitamente que no fuera automáticamente decisivo.
+rating:
+  weight: 0.35        # cuota del Performance Score que aporta el rating
+  baseline: 6.00      # un 6.0 es actuación neutra -> aporta 0
+  scale: 3.00         # un 9.0 satura el componente en 1.0
+
+# Derivadas que no vienen dadas y se calculan al vuelo.
+derived:
+  save_pct: saves / (saves + goals_conceded)
+  clean_sheet: goals_conceded == 0

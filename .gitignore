@@ -35,3 +35,8 @@ soccerdata/
 
 # Notebooks
 .ipynb_checkpoints/
+
+# Web
+web/node_modules/
+web/.next/
+web/out/

@@ -14,13 +14,17 @@ dependencies = [
   "PyYAML>=6.0",
   "pandas>=2.2",
   "requests>=2.32",
-  "soccerdata>=1.8",
   "lxml>=5.0",
   "html5lib>=1.1",
   "beautifulsoup4>=4.12",
+  "pyarrow>=17.0",
+  "fastapi>=0.115",
+  "uvicorn[standard]>=0.32",
 ]
 
 [project.optional-dependencies]
+# FBref serves 403 to plain HTTP clients, so it needs a real browser.
+fbref = ["seleniumbase>=4.30", "soccerdata>=1.8", "rdata>=1.1"]
 dev = ["ruff>=0.6", "pytest>=8.0"]
 
 [tool.setuptools.packages.find]

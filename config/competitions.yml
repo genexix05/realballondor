@@ -39,11 +39,76 @@ competitions:
     type: continental
     country: EUR
     weight: 1.10
-  - code: Domestic Cup
-    name: Domestic Cup
+  - code: ESP-Copa del Rey
+    name: Copa del Rey
     type: domestic_cup
-    country: null
+    country: ESP
     weight: 1.05
+  - code: ENG-FA Cup
+    name: FA Cup
+    type: domestic_cup
+    country: ENG
+    weight: 1.05
+  - code: ENG-EFL Cup
+    name: EFL Cup
+    type: domestic_cup
+    country: ENG
+    weight: 1.00
+  - code: GER-DFB-Pokal
+    name: DFB-Pokal
+    type: domestic_cup
+    country: GER
+    weight: 1.05
+  - code: ITA-Coppa Italia
+    name: Coppa Italia
+    type: domestic_cup
+    country: ITA
+    weight: 1.05
+  - code: FRA-Coupe de France
+    name: Coupe de France
+    type: domestic_cup
+    country: FRA
+    weight: 1.05
+  - code: ESP-Supercopa
+    name: Supercopa de España
+    type: super_cup
+    country: ESP
+    weight: 1.05
+  - code: ENG-Community Shield
+    name: FA Community Shield
+    type: super_cup
+    country: ENG
+    weight: 1.00
+  - code: GER-DFL-Supercup
+    name: DFL-Supercup
+    type: super_cup
+    country: GER
+    weight: 1.00
+  - code: ITA-Supercoppa
+    name: Supercoppa Italiana
+    type: super_cup
+    country: ITA
+    weight: 1.05
+  - code: FRA-Trophee des Champions
+    name: Trophée des Champions
+    type: super_cup
+    country: FRA
+    weight: 1.00
+  - code: UEFA-Super Cup
+    name: UEFA Super Cup
+    type: super_cup
+    country: EUR
+    weight: 1.15
+  - code: FIFA-Intercontinental Cup
+    name: FIFA Intercontinental Cup
+    type: intercontinental
+    country: INT
+    weight: 1.15
+  - code: FIFA-Club World Cup
+    name: FIFA Club World Cup
+    type: intercontinental
+    country: INT
+    weight: 1.25
   - code: INT-World Cup
     name: FIFA World Cup
     type: international
@@ -60,12 +125,53 @@ competitions:
     country: INT
     weight: 1.35
 
+# Valor de cada título para el componente de palmarés (18% del índice).
+# El Mundial vale más que la Champions (1,20 vs 1,00): se juega cada cuatro
+# años y en el Balón de Oro real ha sido decisivo. El crédito se escala por
+# minutos contra el compañero más usado de la misma posición, no contra
+# el portero que jugó todo.
+#
+# Ligas Big 5: ancla Premier = 0.80 (por debajo de Champions 1.00), el resto
+# sqrt(coef_país / 23.0) con el coeficiente UEFA 2025 (ENG 23.0, ITA 19.4,
+# ESP 18.9, GER 17.3, FRA 14.6). Misma raíz que opponent strength.
+trophies:
+  INT-World Cup:             {winner: 1.20, runner_up: 0.45}
+  UEFA-Champions League:     {winner: 1.00, runner_up: 0.35}
+  INT-Euro:                  {winner: 0.85, runner_up: 0.30}
+  INT-Copa America:          {winner: 0.80, runner_up: 0.28}
+  ENG-Premier League:        {winner: 0.80, runner_up: 0.22}
+  ITA-Serie A:               {winner: 0.73, runner_up: 0.20}
+  ESP-La Liga:               {winner: 0.72, runner_up: 0.20}
+  GER-Bundesliga:            {winner: 0.69, runner_up: 0.19}
+  FRA-Ligue 1:               {winner: 0.64, runner_up: 0.17}
+  UEFA-Europa League:        {winner: 0.45, runner_up: 0.15}
+  FIFA-Club World Cup:       {winner: 0.45, runner_up: 0.15}
+  ESP-Copa del Rey:          {winner: 0.30, runner_up: 0.10}
+  ENG-FA Cup:                {winner: 0.30, runner_up: 0.10}
+  GER-DFB-Pokal:             {winner: 0.30, runner_up: 0.10}
+  ITA-Coppa Italia:          {winner: 0.30, runner_up: 0.10}
+  FRA-Coupe de France:       {winner: 0.28, runner_up: 0.09}
+  UEFA-Conference League:    {winner: 0.25, runner_up: 0.08}
+  ENG-EFL Cup:               {winner: 0.20, runner_up: 0.07}
+  FIFA-Intercontinental Cup: {winner: 0.20, runner_up: 0.07}
+  UEFA-Super Cup:            {winner: 0.15, runner_up: 0.05}
+  ESP-Supercopa:             {winner: 0.10, runner_up: 0.03}
+  ITA-Supercoppa:            {winner: 0.10, runner_up: 0.03}
+  GER-DFL-Supercup:          {winner: 0.08, runner_up: 0.03}
+  FRA-Trophee des Champions: {winner: 0.08, runner_up: 0.03}
+  ENG-Community Shield:      {winner: 0.08, runner_up: 0.03}
+
+# league_phase (UCL, ligas) se queda en 1.00. group_stage es Mundial / Euro /
+# Copa América / Mundial de Clubes: clasificarse y caer en grupos no es un
+# premio. El 1.50 del Mundial se nota de verdad a partir de octavos.
 stages:
   league_phase: 1.00
-  group_stage: 1.00
+  group_stage: 0.70
+  playoff: 1.05
   round_of_32: 1.05
   round_of_16: 1.10
   quarter_final: 1.20
   semi_final: 1.35
+  third_place: 1.10
   final: 1.50
   regular_season: 1.00

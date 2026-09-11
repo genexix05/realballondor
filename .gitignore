@@ -32,6 +32,7 @@ soccerdata/
 .idea/
 .vscode/
 *.swp
+.cursor/
 
 # Notebooks
 .ipynb_checkpoints/

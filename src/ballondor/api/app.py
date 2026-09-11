@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 from decimal import Decimal
 from functools import lru_cache
 from pathlib import Path
@@ -11,6 +12,7 @@ import pandas as pd
 import yaml
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import RedirectResponse
 from psycopg.rows import dict_row
 
 from ballondor.db import connect
@@ -18,10 +20,19 @@ from ballondor.db import connect
 ROOT = Path(__file__).resolve().parents[3]
 CONFIG_DIR = ROOT / "config"
 
+_DEFAULT_CORS = (
+    "http://localhost:3000,http://127.0.0.1:3000,https://realballondor.vercel.app"
+)
+CORS_ORIGINS = [
+    origin.strip()
+    for origin in os.getenv("CORS_ORIGINS", _DEFAULT_CORS).split(",")
+    if origin.strip()
+]
+
 app = FastAPI(title="Ballon d'Or Statistical Index", version="0.1.0")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_origins=CORS_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -214,6 +225,11 @@ def _player_model_stats(
         "used": used,
         "penalties": pens,
     }
+
+
+@app.get("/", include_in_schema=False)
+def root() -> RedirectResponse:
+    return RedirectResponse(url="/docs")
 
 
 @app.get("/api/model")

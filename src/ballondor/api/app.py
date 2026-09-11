@@ -17,7 +17,24 @@ from psycopg.rows import dict_row
 
 from ballondor.db import connect
 
-ROOT = Path(__file__).resolve().parents[3]
+
+def _project_root() -> Path:
+    env = os.getenv("BALLONDOR_ROOT")
+    if env:
+        return Path(env)
+    here = Path(__file__).resolve()
+    candidates = [
+        here.parents[3],  # repo: src/ballondor/api/app.py
+        Path("/app"),  # Docker image layout
+        Path.cwd(),
+    ]
+    for root in candidates:
+        if (root / "config" / "positions.yml").is_file():
+            return root
+    return candidates[0]
+
+
+ROOT = _project_root()
 CONFIG_DIR = ROOT / "config"
 
 _DEFAULT_CORS = (
@@ -127,6 +144,8 @@ def _season_stats(season: str) -> pd.DataFrame:
 
     tag = season.replace("/", "-")
     path = ROOT / "data" / "raw" / "fotmob" / f"player_match_stats_full_{tag}.parquet"
+    if not path.is_file():
+        return pd.DataFrame()
     needed = {
         "fotmob_player_id",
         "minutes",
@@ -169,6 +188,8 @@ def _player_model_stats(
     if not fotmob_id:
         return empty
     frame = _season_stats(season)
+    if frame.empty or "fotmob_player_id" not in frame.columns:
+        return empty
     rows = frame[frame.fotmob_player_id.astype(str) == str(fotmob_id)]
     if rows.empty:
         return empty

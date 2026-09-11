@@ -13,6 +13,7 @@ COPY config ./config
 RUN pip install --no-cache-dir .
 
 ENV PYTHONUNBUFFERED=1
+ENV BALLONDOR_ROOT=/app
 EXPOSE 8000
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \

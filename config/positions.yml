@@ -1,0 +1,41 @@
+# Position weight stubs for Base Performance Score (v0 — not applied yet).
+# Values are relative importance within a position group.
+positions:
+  FW:
+    goals: 1.00
+    xg: 0.85
+    assists: 0.70
+    xa: 0.60
+    shots: 0.40
+    key_passes: 0.35
+    progressive_carries: 0.30
+    dribbles_completed: 0.30
+    tackles: 0.10
+    interceptions: 0.10
+  MF:
+    goals: 0.55
+    xg: 0.45
+    assists: 0.80
+    xa: 0.75
+    key_passes: 0.70
+    progressive_passes: 0.65
+    progressive_carries: 0.50
+    tackles: 0.45
+    interceptions: 0.45
+    recoveries: 0.40
+  DF:
+    tackles: 0.80
+    interceptions: 0.80
+    aerial_duels_won: 0.70
+    clearances: 0.60
+    blocks: 0.55
+    progressive_passes: 0.45
+    goals: 0.25
+    assists: 0.30
+  GK:
+    saves: 1.00
+    save_pct: 0.70
+    psxg_minus_ga: 0.90
+    clean_sheets: 0.40
+    claims: 0.30
+    progressive_passes: 0.25

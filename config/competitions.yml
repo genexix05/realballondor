@@ -1,0 +1,71 @@
+competitions:
+  - code: ESP-La Liga
+    name: La Liga
+    type: domestic_league
+    country: ESP
+    weight: 1.00
+  - code: ENG-Premier League
+    name: Premier League
+    type: domestic_league
+    country: ENG
+    weight: 1.00
+  - code: GER-Bundesliga
+    name: Bundesliga
+    type: domestic_league
+    country: GER
+    weight: 1.00
+  - code: ITA-Serie A
+    name: Serie A
+    type: domestic_league
+    country: ITA
+    weight: 1.00
+  - code: FRA-Ligue 1
+    name: Ligue 1
+    type: domestic_league
+    country: FRA
+    weight: 1.00
+  - code: UEFA-Champions League
+    name: UEFA Champions League
+    type: continental
+    country: EUR
+    weight: 1.35
+  - code: UEFA-Europa League
+    name: UEFA Europa League
+    type: continental
+    country: EUR
+    weight: 1.20
+  - code: UEFA-Conference League
+    name: UEFA Conference League
+    type: continental
+    country: EUR
+    weight: 1.10
+  - code: Domestic Cup
+    name: Domestic Cup
+    type: domestic_cup
+    country: null
+    weight: 1.05
+  - code: INT-World Cup
+    name: FIFA World Cup
+    type: international
+    country: INT
+    weight: 1.50
+  - code: INT-Euro
+    name: UEFA European Championship
+    type: international
+    country: INT
+    weight: 1.35
+  - code: INT-Copa America
+    name: Copa América
+    type: international
+    country: INT
+    weight: 1.35
+
+stages:
+  league_phase: 1.00
+  group_stage: 1.00
+  round_of_32: 1.05
+  round_of_16: 1.10
+  quarter_final: 1.20
+  semi_final: 1.35
+  final: 1.50
+  regular_season: 1.00

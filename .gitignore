@@ -1,7 +1,11 @@
 # Environment / secrets
 .env
 .env.local
+.env.*.local
 *.pem
+web/.env
+web/.env.local
+web/.env*.local
 
 # Python
 __pycache__/
@@ -27,6 +31,9 @@ data/**/*.partial.csv
 .soccerdata/
 soccerdata/
 
+# Browser / scraper lockfiles
+downloaded_files/
+
 # OS / IDE
 .DS_Store
 .idea/
@@ -41,3 +48,4 @@ soccerdata/
 web/node_modules/
 web/.next/
 web/out/
+web/tsconfig.tsbuildinfo

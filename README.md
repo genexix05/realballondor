@@ -2,6 +2,8 @@
 
 Índice estadístico partido a partido para valorar candidatos al Balón de Oro de forma transparente y reproducible.
 
+Licencia: [MIT](LICENSE). No subas `.env` ni credenciales; copia `.env.example` y rellena en local.
+
 ## Fuentes de datos
 
 Estado comprobado en septiembre de 2026:
@@ -32,14 +34,13 @@ SCA/GCA en las Big 5, unible por `opta_player_id`.
 
 ## Arranque rápido
 
-- **Código**: este repo
-- **PostgreSQL**: Docker en `192.168.0.48` (`~/docker/realballondor`)
+Requisitos: Python 3.11+, Node.js 20+ (solo para la UI) y Docker (recomendado para Postgres).
 
 ### 1. Variables de entorno
 
 ```bash
 cp .env.example .env
-# Edita DATABASE_URL con la password del servidor
+# Edita DATABASE_URL y POSTGRES_PASSWORD (mismo valor en ambos)
 ```
 
 ### 2. Dependencias
@@ -50,9 +51,13 @@ source .venv/bin/activate
 pip install -e .
 ```
 
-### 3. Migraciones
+### 3. Base de datos y migraciones
 
 ```bash
+# Postgres + API (opcional; la API también se puede lanzar con uvicorn)
+cd docker && docker compose up -d postgres
+# Si usas el compose completo: docker compose up -d
+
 python scripts/migrate.py
 ```
 
@@ -272,16 +277,21 @@ football-data cuando coinciden competición, fecha y equipos.
 
 Endpoints: `/api/ranking`, `/api/players/{id}`, `/api/players/{id}/matches`, `/api/trophies`.
 
-## Base de datos en el servidor
-
-```bash
-ssh genexix05@192.168.0.48
-cd ~/docker/realballondor
-docker-compose ps
-docker-compose logs -f postgres
-```
+## Docker
 
 Compose de referencia: [`docker/docker-compose.yml`](docker/docker-compose.yml).
+
+```bash
+cp .env.example .env   # POSTGRES_PASSWORD obligatorio
+cd docker && docker compose up -d
+docker compose logs -f postgres
+```
+
+Para exponer la API con Cloudflare Tunnel (opcional):
+
+```bash
+TUNNEL_HOSTNAME=api.example.com ./docker/setup-tunnel.sh
+```
 
 ## Estructura
 

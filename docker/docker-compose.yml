@@ -29,7 +29,7 @@ services:
       - "8800:8000"
     environment:
       DATABASE_URL: postgresql://ballondor:${POSTGRES_PASSWORD}@postgres:5432/ballondor
-      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000,http://127.0.0.1:3000,https://realballondor.vercel.app}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000,http://127.0.0.1:3000}
       BALLONDOR_ROOT: /app
     volumes:
       - ../data/raw/fotmob:/app/data/raw/fotmob:ro

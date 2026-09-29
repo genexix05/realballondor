@@ -37,9 +37,7 @@ def _project_root() -> Path:
 ROOT = _project_root()
 CONFIG_DIR = ROOT / "config"
 
-_DEFAULT_CORS = (
-    "http://localhost:3000,http://127.0.0.1:3000,https://realballondor.vercel.app"
-)
+_DEFAULT_CORS = "http://localhost:3000,http://127.0.0.1:3000"
 CORS_ORIGINS = [
     origin.strip()
     for origin in os.getenv("CORS_ORIGINS", _DEFAULT_CORS).split(",")
